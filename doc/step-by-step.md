@@ -27,14 +27,14 @@ https://github.com/eosnetworkfoundation/bootstrap-private-network/blob/6253aea3d
 ## Install Antelope Software
 Now that the binaries are build you need to add CDT and Spring to your path or install them into well know locations. The [Reference Install Script](/bin/install_antelope_software.sh) must be run as root and demonstrates one way to install the software.
 
-Note, the `Reference Contracts` are install later during the initialization of the EOS blockchain.
+Note, the `Reference Contracts` are install later during the initialization of the IMPACT blockchain.
 
 ## Initialize Block Chain
 Before we can start up our multi-producer blockchain a few preparations are needed.
 #### `Create New Key Pair`
 We will create a new key pair for the root user of the blockchain. You will use the Public Key often in the setup, so please save these keys for use later. You will see a `PublicKey` and `PrivateKey` printed to the console using the following command.
 `cleos create key --to-console`
-We create three additional key pairs for each of our producers. Here the producers are named `bpa`, `bpb`, `bpc`.
+We create three additional key pairs for each of our producers. Here the producers are named alpha.bp beta.bp gamma.bp
 https://github.com/eosnetworkfoundation/bootstrap-private-network/blob/3294441405fe45cfeb417e606fbf2cd6d6f75a09/bin/finality_test_network.sh#L72-L80
 #### `Create Genesis File`
 Take the reference [Genesis File](/config/genesis.json) and replace the value for `Initial Key` with the `PublicKey` generated previously. Replace the the value for `Initial Timestamp` with now. In linux you can get the correct format for the date with the following command `date +%FT%T.%3N`.
@@ -75,7 +75,7 @@ One the node is running we need to run two scripts to add accounts and contracts
 This script creates the system accounts.
 https://github.com/eosnetworkfoundation/bootstrap-private-network/blob/3294441405fe45cfeb417e606fbf2cd6d6f75a09/bin/boot_actions.sh#L15-L24
 
-We create 380,000,000 EOS tokens.
+We create 380,000,000 IMPACT tokens.
 https://github.com/eosnetworkfoundation/bootstrap-private-network/blob/05d5b9c9806dbcd0a593a4108386b1e6f1a4dc24/bin/boot_actions.sh#L26-L28
 
 Below we activate the protocols needed to support Savanna and create the `boot`, and `system` contracts.
@@ -87,7 +87,7 @@ https://github.com/eosnetworkfoundation/bootstrap-private-network/blob/329444140
 - 127.0.0.1:8888
 - $WALLET_DIR
 
-Next we create 3 producer accounts, one for each of our nodes. After creating the keys, we create the accounts, allocate EOS, and add some resources.
+Next we create 3 producer accounts, one for each of our nodes. After creating the keys, we create the accounts, allocate IMPACT, and add some resources.
 https://github.com/eosnetworkfoundation/bootstrap-private-network/blob/05d5b9c9806dbcd0a593a4108386b1e6f1a4dc24/bin/create_accounts.sh#L16-L20
 
 We create 26 users accounts. These accounts will stake resources and vote for producers. Same commands we used to create the producers. The only difference is funding amounts.
@@ -139,7 +139,7 @@ echo "signature-provider = ""${NODE_THREE_PUBLIC_KEY}""=KEY:""${NODE_THREE_PRIVA
 ```
 
 #### `Apply New Configuration`
-Now that the configuration is in the shared `config.ini` we need to stop and re-start all three nodes to load the new configuration. Find the pid and send `kill -15 $pid` to terminate all three instances. Now start up the nodes. Here are examples from our reference development script. The `signature-provider` argument on the command line is the [EOS Root Key Pair](/doc/step-by-step.md#create-new-key-pair) we created earlier, and it is still needed for this restart step.
+Now that the configuration is in the shared `config.ini` we need to stop and re-start all three nodes to load the new configuration. Find the pid and send `kill -15 $pid` to terminate all three instances. Now start up the nodes. Here are examples from our reference development script. The `signature-provider` argument on the command line is the [IMPACT Root Key Pair](/doc/step-by-step.md#create-new-key-pair) we created earlier, and it is still needed for this restart step.
 
 https://github.com/eosnetworkfoundation/bootstrap-private-network/blob/3294441405fe45cfeb417e606fbf2cd6d6f75a09/bin/finality_test_network.sh#L134-L143
 
@@ -171,4 +171,4 @@ In addition you can check your logs for the following strings, the will provide 
 - `Transition to instant finality`
 
 
-Congratulations you are running a Private EOS network with the new, faster finality, Savanna algorithm.
+Congratulations you are running a Private IMPACT network with the new, faster finality, Savanna algorithm.

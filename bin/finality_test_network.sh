@@ -17,14 +17,14 @@ NODEOS_THREE_PORT=7888
 ENDPOINT="http://127.0.0.1:${NODEOS_ONE_PORT}"
 
 COMMAND=${1:-"NA"}
-ROOT_DIR="/bigata1/savanna"
-LOG_DIR="/bigata1/log"
+ROOT_DIR="/data/chain-data"
+LOG_DIR="/data/chain-data/log"
 WALLET_DIR=${HOME}/eosio-wallet
-CONTRACT_DIR="/local/eosnetworkfoundation/repos/eos-system-contracts/build/contracts"
+CONTRACT_DIR="/data/eos-system-contracts/build/contracts"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-GENESIS_FILE="/local/eosnetworkfoundation/repos/bootstrap-private-network/config/genesis.json"
-CONFIG_FILE="/local/eosnetworkfoundation/repos/bootstrap-private-network/config/config.ini"
-LOGGING_JSON="/local/eosnetworkfoundation/repos/bootstrap-private-network/config/logging.json"
+GENESIS_FILE="/data/non-profit-chain/config/genesis.json"
+CONFIG_FILE="/data/non-profit-chain/config/config.ini"
+LOGGING_JSON="/data/non-profit-chain/config/logging.json"
 
 ######
 # Stop Function to shutdown all nodes
@@ -116,7 +116,7 @@ start_func() {
     "$SCRIPT_DIR"/boot_actions.sh "$ENDPOINT" "$CONTRACT_DIR" "$EOS_ROOT_PUBLIC_KEY"
     "$SCRIPT_DIR"/add_time_func.sh "$ENDPOINT" 
     sleep 1
-    # create producer and user accounts, stake EOS
+    # create producer and user accounts, stake IMPACT
     "$SCRIPT_DIR"/create_accounts.sh "$ENDPOINT" "$CONTRACT_DIR"
     sleep 1
     # register producers and users vote for producers

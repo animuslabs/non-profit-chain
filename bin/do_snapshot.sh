@@ -26,14 +26,14 @@ TIME=${HEAD_BLOCK_TIME#*T}
 HOUR=${TIME%%:*}
 DATE="${DATE}-${HOUR}"
 if type zstd >/dev/null 2>&1; then
-  # rename to our format snapshot-2019-08-11-16-eos-v6-0073487941.bin.zst
-  NEW_PATH="${SNAP_PATH%/*}/snapshot-${DATE}-eos-v${VERSION}-${SNAP_HEAD_BLOCK}.bin.zst"
+  # rename to our format snapshot-2019-08-11-16-impact-v6-0073487941.bin.zst
+  NEW_PATH="${SNAP_PATH%/*}/snapshot-${DATE}-impact-v${VERSION}-${SNAP_HEAD_BLOCK}.bin.zst"
   zstd < "$SNAP_PATH" > "$NEW_PATH"
   if [ $? -eq 0 ]; then
     rm "$SNAP_PATH"
   fi
 else
-  NEW_PATH="${SNAP_PATH%/*}/snapshot-${DATE}-eos-v${VERSION}-${SNAP_HEAD_BLOCK}.bin.gzip"
+  NEW_PATH="${SNAP_PATH%/*}/snapshot-${DATE}-impact-v${VERSION}-${SNAP_HEAD_BLOCK}.bin.gzip"
   gzip < "$SNAP_PATH" > "$NEW_PATH"
   if [ $? -eq 0 ]; then
     rm "$SNAP_PATH"
