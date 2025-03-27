@@ -20,7 +20,7 @@ COMMAND=${1:-"NA"}
 ROOT_DIR="/data/chain-data"
 LOG_DIR="/data/chain-data/log"
 WALLET_DIR=${HOME}/eosio-wallet
-CONTRACT_DIR="/data/eos-system-contracts/build/contracts"
+CONTRACT_DIR="/data/non-profit-chain/contracts"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 GENESIS_FILE="/data/non-profit-chain/config/genesis.json"
 CONFIG_FILE="/data/non-profit-chain/config/config.ini"
@@ -117,7 +117,7 @@ start_func() {
     "$SCRIPT_DIR"/add_time_func.sh "$ENDPOINT" 
     sleep 1
     # create producer and user accounts, stake IMPACT
-    "$SCRIPT_DIR"/create_accounts.sh "$ENDPOINT" "$CONTRACT_DIR"
+    "$SCRIPT_DIR"/create_accounts.sh "$ENDPOINT" "$WALLET_DIR"
     sleep 1
     # register producers and users vote for producers
     "$SCRIPT_DIR"/block_producer_setup.sh "$ENDPOINT" "$WALLET_DIR"

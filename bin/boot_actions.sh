@@ -12,21 +12,13 @@ ENDPOINT=$1
 CONTRACT_DIR=$2
 PUBLIC_KEY=$3
 
-cleos --url $ENDPOINT create account eosio eosio.bpay $PUBLIC_KEY
 cleos --url $ENDPOINT create account eosio eosio.msig $PUBLIC_KEY
-cleos --url $ENDPOINT create account eosio eosio.names $PUBLIC_KEY
 cleos --url $ENDPOINT create account eosio eosio.ram $PUBLIC_KEY
 cleos --url $ENDPOINT create account eosio eosio.ramfee $PUBLIC_KEY
-cleos --url $ENDPOINT create account eosio eosio.saving $PUBLIC_KEY
 cleos --url $ENDPOINT create account eosio eosio.stake $PUBLIC_KEY
 cleos --url $ENDPOINT create account eosio eosio.token $PUBLIC_KEY
-cleos --url $ENDPOINT create account eosio eosio.vpay $PUBLIC_KEY
 cleos --url $ENDPOINT create account eosio eosio.rex $PUBLIC_KEY
 cleos --url $ENDPOINT create account eosio eosio.fees $PUBLIC_KEY
-cleos --url $ENDPOINT create account eosio eosio.reward $PUBLIC_KEY
-cleos --url $ENDPOINT create account eosio eosio.wram $PUBLIC_KEY
-cleos --url $ENDPOINT create account eosio eosio.reserv $PUBLIC_KEY
-cleos --url $ENDPOINT create account eosio eosio.time $PUBLIC_KEY
 cleos --url $ENDPOINT create account eosio impact $PUBLIC_KEY
 
 cleos --url $ENDPOINT set contract eosio.token "$CONTRACT_DIR"/eosio.token/
