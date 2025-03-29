@@ -34,3 +34,6 @@ SECURE_KEYS_FILE="$ROOT_DIR/secure/bls_keys.sh"
 
 # BLS Keys are stored in a secure location
 SECURE_KEYS_FILE="/data/chain-data/secure/bls_keys.sh"
+
+# BLS Keys are stored in a secure location
+SECURE_KEYS_FILE="/data/chain-data/secure/bls_keys.sh"
