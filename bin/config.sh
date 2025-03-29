@@ -12,12 +12,17 @@ LOG_DIR="/data/chain-data/log"
 WALLET_DIR="/data/chain-data/wallet"
 CONTRACT_DIR="/data/non-profit-chain/contracts"
 
+# Node directories
+NODE_ONE_DIR="node-bpa"
+NODE_TWO_DIR="node-bpb"
+NODE_THREE_DIR="node-bpc"
+
 # Config files
 GENESIS_FILE="/data/non-profit-chain/config/genesis.json"
 CONFIG_FILE="/data/non-profit-chain/config/config.ini"
 LOGGING_JSON="/data/non-profit-chain/config/logging.json"
 
-# Producer names
+# Producer names corresponging to the node directories
 PRODUCERS=(bpa bpb bpc)
 
 # P2P ports
@@ -31,9 +36,3 @@ SPECIAL_ACCOUNTS=("bitcash" "prop.bitcash" "refe.bitcash") # accounts with large
 
 # BLS Keys are stored in a secure location
 SECURE_KEYS_FILE="$ROOT_DIR/secure/bls_keys.sh"
-
-# BLS Keys are stored in a secure location
-SECURE_KEYS_FILE="/data/chain-data/secure/bls_keys.sh"
-
-# BLS Keys are stored in a secure location
-SECURE_KEYS_FILE="/data/chain-data/secure/bls_keys.sh"

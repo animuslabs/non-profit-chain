@@ -76,9 +76,9 @@ start_func() {
     sed "s/\"initial_key\": \".*\",/\"initial_key\": \"${EOS_ROOT_PUBLIC_KEY}\",/" $GENESIS_FILE > /tmp/genesis.json
     sed "s/\"initial_timestamp\": \".*\",/\"initial_timestamp\": \"${NOW}\",/" /tmp/genesis.json > ${ROOT_DIR}/genesis.json
     [ ! -d "$LOG_DIR" ] && mkdir -p "$LOG_DIR"
-    [ ! -d "$ROOT_DIR"/nodeos-one/data ] && mkdir -p "$ROOT_DIR"/nodeos-one/data
-    [ ! -d "$ROOT_DIR"/nodeos-two/data ] && mkdir -p "$ROOT_DIR"/nodeos-two/data
-    [ ! -d "$ROOT_DIR"/nodeos-three/data ] && mkdir -p "$ROOT_DIR"/nodeos-three/data
+    [ ! -d "$ROOT_DIR"/"$NODE_ONE_DIR"/data ] && mkdir -p "$ROOT_DIR"/"$NODE_ONE_DIR"/data
+    [ ! -d "$ROOT_DIR"/"$NODE_TWO_DIR"/data ] && mkdir -p "$ROOT_DIR"/"$NODE_TWO_DIR"/data
+    [ ! -d "$ROOT_DIR"/"$NODE_THREE_DIR"/data ] && mkdir -p "$ROOT_DIR"/"$NODE_THREE_DIR"/data
     # setup common config, shared by all nodoes instances
     cp "${CONFIG_FILE}" ${ROOT_DIR}/config.ini
     cp "${LOGGING_JSON}" ${ROOT_DIR}/logging.json
@@ -98,7 +98,7 @@ start_func() {
       --producer-name eosio \
       --signature-provider ${EOS_ROOT_PUBLIC_KEY}=KEY:${EOS_ROOT_PRIVATE_KEY} \
       --config "$ROOT_DIR"/config.ini \
-      --data-dir "$ROOT_DIR"/nodeos-one/data > $LOG_DIR/nodeos-one.log 2>&1 &
+      --data-dir "$ROOT_DIR"/"$NODE_ONE_DIR"/data > $LOG_DIR/$NODE_ONE_DIR.log 2>&1 &
     NODEOS_ONE_PID=$!
 
     # create accounts, activate protocols, create tokens, set system contracts
@@ -130,9 +130,9 @@ start_func() {
     --producer-name ${PRODUCERS[0]} \
     --signature-provider ${PRODUCER_ONE_PUBLIC_KEY}=KEY:${PRODUCER_ONE_PRIVATE_KEY} \
     --config "$ROOT_DIR"/config.ini \
-    --data-dir "$ROOT_DIR"/nodeos-one/data \
+    --data-dir "$ROOT_DIR"/"$NODE_ONE_DIR"/data \
     --p2p-peer-address 127.0.0.1:${P2P_PORT_TWO} \
-    --p2p-peer-address 127.0.0.1:${P2P_PORT_THREE} --logconf "$ROOT_DIR"/logging.json > $LOG_DIR/nodeos-one.log 2>&1 &
+    --p2p-peer-address 127.0.0.1:${P2P_PORT_THREE} --logconf "$ROOT_DIR"/logging.json > $LOG_DIR/$NODE_ONE_DIR.log 2>&1 &
 
   # start nodeos two
   echo "please wait while we fire up the second node"
@@ -148,9 +148,9 @@ start_func() {
       --producer-name ${PRODUCERS[1]} \
       --signature-provider ${PRODUCER_TWO_PUBLIC_KEY}=KEY:${PRODUCER_TWO_PRIVATE_KEY} \
       --config "$ROOT_DIR"/config.ini \
-      --data-dir "$ROOT_DIR"/nodeos-two/data \
+      --data-dir "$ROOT_DIR"/"$NODE_TWO_DIR"/data \
       --p2p-peer-address 127.0.0.1:${P2P_PORT_ONE} \
-      --p2p-peer-address 127.0.0.1:${P2P_PORT_THREE} > $LOG_DIR/nodeos-two.log 2>&1 &
+      --p2p-peer-address 127.0.0.1:${P2P_PORT_THREE} > $LOG_DIR/$NODE_TWO_DIR.log 2>&1 &
   else
     nodeos --agent-name "Node Two" \
       --http-server-address 0.0.0.0:${NODEOS_TWO_PORT} \
@@ -159,9 +159,9 @@ start_func() {
       --producer-name ${PRODUCERS[1]} \
       --signature-provider ${PRODUCER_TWO_PUBLIC_KEY}=KEY:${PRODUCER_TWO_PRIVATE_KEY} \
       --config "$ROOT_DIR"/config.ini \
-      --data-dir "$ROOT_DIR"/nodeos-two/data \
+      --data-dir "$ROOT_DIR"/"$NODE_TWO_DIR"/data \
       --p2p-peer-address 127.0.0.1:${P2P_PORT_ONE} \
-      --p2p-peer-address 127.0.0.1:${P2P_PORT_THREE} > $LOG_DIR/nodeos-two.log 2>&1 &
+      --p2p-peer-address 127.0.0.1:${P2P_PORT_THREE} > $LOG_DIR/$NODE_TWO_DIR.log 2>&1 &
   fi
   echo "please wait while we fire up the third node"
   sleep 5
@@ -176,9 +176,9 @@ start_func() {
       --producer-name ${PRODUCERS[2]} \
       --signature-provider ${PRODUCER_THREE_PUBLIC_KEY}=KEY:${PRODUCER_THREE_PRIVATE_KEY} \
       --config "$ROOT_DIR"/config.ini \
-      --data-dir "$ROOT_DIR"/nodeos-three/data \
+      --data-dir "$ROOT_DIR"/"$NODE_THREE_DIR"/data \
       --p2p-peer-address 127.0.0.1:${P2P_PORT_ONE} \
-      --p2p-peer-address 127.0.0.1:${P2P_PORT_TWO} > $LOG_DIR/nodeos-three.log 2>&1 &
+      --p2p-peer-address 127.0.0.1:${P2P_PORT_TWO} > $LOG_DIR/$NODE_THREE_DIR.log 2>&1 &
   else
     nodeos --agent-name "Node Three" \
       --http-server-address 0.0.0.0:${NODEOS_THREE_PORT} \
@@ -187,9 +187,9 @@ start_func() {
       --producer-name ${PRODUCERS[2]} \
       --signature-provider ${PRODUCER_THREE_PUBLIC_KEY}=KEY:${PRODUCER_THREE_PRIVATE_KEY} \
       --config "$ROOT_DIR"/config.ini \
-      --data-dir "$ROOT_DIR"/nodeos-three/data \
+      --data-dir "$ROOT_DIR"/"$NODE_THREE_DIR"/data \
       --p2p-peer-address 127.0.0.1:${P2P_PORT_ONE} \
-      --p2p-peer-address 127.0.0.1:${P2P_PORT_TWO} > $LOG_DIR/nodeos-three.log 2>&1 &
+      --p2p-peer-address 127.0.0.1:${P2P_PORT_TWO} > $LOG_DIR/$NODE_THREE_DIR.log 2>&1 &
   fi
 
   echo "waiting for production network to sync up..."
@@ -210,9 +210,9 @@ if [ "$COMMAND" == "CLEAN" ]; then
     # Remove everything in ROOT_DIR
     rm -rf "$ROOT_DIR"/*
     # Recreate basic directory structure
-    mkdir -p "$ROOT_DIR"/nodeos-one/data
-    mkdir -p "$ROOT_DIR"/nodeos-two/data
-    mkdir -p "$ROOT_DIR"/nodeos-three/data
+    mkdir -p "$ROOT_DIR"/"$NODE_ONE_DIR"/data
+    mkdir -p "$ROOT_DIR"/"$NODE_TWO_DIR"/data
+    mkdir -p "$ROOT_DIR"/"$NODE_THREE_DIR"/data
     mkdir -p "$LOG_DIR"
 fi
 
@@ -276,10 +276,13 @@ if [ "$COMMAND" == "CREATE" ] || [ "$COMMAND" == "START" ]; then
     sed -i -e "/^PRIVATE_KEY=(/,/^)/d" "$SCRIPT_DIR"/config.sh
     sed -i -e "/^PROOF_POSSESION=(/,/^)/d" "$SCRIPT_DIR"/config.sh
     
-    # Add reference to secure file in config.sh
-    echo "" >> "$SCRIPT_DIR"/config.sh
-    echo "# BLS Keys are stored in a secure location" >> "$SCRIPT_DIR"/config.sh
-    echo "SECURE_KEYS_FILE=\"$ROOT_DIR/secure/bls_keys.sh\"" >> "$SCRIPT_DIR"/config.sh
+    # Check if SECURE_KEYS_FILE entry already exists in config.sh
+    if ! grep -q "SECURE_KEYS_FILE=" "$SCRIPT_DIR"/config.sh; then
+      # Add reference to secure file in config.sh only if it doesn't exist
+      echo "" >> "$SCRIPT_DIR"/config.sh
+      echo "# BLS Keys are stored in a secure location" >> "$SCRIPT_DIR"/config.sh
+      echo "SECURE_KEYS_FILE=\"$ROOT_DIR/secure/bls_keys.sh\"" >> "$SCRIPT_DIR"/config.sh
+    fi
 
     echo "need to reload config: please wait shutting down node"
     stop_func
@@ -298,8 +301,8 @@ if [ "$COMMAND" == "CREATE" ] || [ "$COMMAND" == "START" ]; then
     "$SCRIPT_DIR"/activate_savanna.sh
     echo "please wait for transition to Savanna consensus"
     sleep 30
-    grep 'Transitioning to savanna' "$LOG_DIR"/nodeos-one.log
-    grep 'Transition to instant finality' "$LOG_DIR"/nodeos-one.log
+    grep 'Transitioning to savanna' "$LOG_DIR"/"$NODE_ONE_DIR".log
+    grep 'Transition to instant finality' "$LOG_DIR"/"$NODE_ONE_DIR".log
   fi
 fi
 
