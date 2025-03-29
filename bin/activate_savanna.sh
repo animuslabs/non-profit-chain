@@ -7,18 +7,20 @@
 # and `switchtosvnn` will activate Savanna Algorithm
 ####
 
-ENDPOINT=$1
-# First array starts from the second argument to the 22st argument
-PUBLIC_KEY=("${@:2:4}")
-# Second array starts from the 23rd argument to the 43rd argument
-PROOF_POSSESION=("${@:5:7}")
+# Source configuration
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+source "${SCRIPT_DIR}/config.sh"
 
+# Source secure keys if available
+if [ -f "$SECURE_KEYS_FILE" ]; then
+  source "$SECURE_KEYS_FILE"
+fi
 
 # unwindw our producer finalizer keys and make activating call
 # New System Contracts Replace with actions regfinkey, and switchtosvnn
 # regfinkey [producer name] [public key] [proof of possession]
 counter=0
-for producer_name in bpa bpb bpc
+for producer_name in "${PRODUCERS[@]}"
 do
     # Execute the cleos command error if vars not set
     # void system_contract::regfinkey( const name& finalizer_name, const std::string& finalizer_key, const std::string& proof_of_possession)
