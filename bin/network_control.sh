@@ -303,6 +303,11 @@ if [ "$COMMAND" == "CREATE" ] || [ "$COMMAND" == "START" ]; then
     sleep 30
     grep 'Transitioning to savanna' "$LOG_DIR"/"$NODE_ONE_DIR".log
     grep 'Transition to instant finality' "$LOG_DIR"/"$NODE_ONE_DIR".log
+    
+    # Transfer system accounts permissions to voter account after Savanna activation
+    echo "Transferring system accounts permissions to voter account..."
+    sleep 10
+    "${SCRIPT_DIR}"/tranfer_permissions.sh
   fi
 fi
 

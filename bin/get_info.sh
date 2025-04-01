@@ -124,6 +124,37 @@ function get_account_keys {
     done
 }
 
+# Add this function before the "Execute the functions" line
+function get_system_accounts_info {
+    echo -e "\n--- System Accounts Status ---"
+    
+    # Define system accounts array
+    SYSTEM_ACCOUNTS=(
+        "eosio"
+        "eosio.ram"
+        "eosio.ramfee"
+        "eosio.stake"
+        "eosio.token"
+        "eosio.rex"
+        "eosio.fees"
+        "eosio.msig"
+    )
+
+    # Check voter account first
+    echo -e "\n=== Voter Account ($VOTER_ACCOUNT) ==="
+    echo -e "\nPermissions:"
+    cleos --url $API_URL get account $VOTER_ACCOUNT
+
+    # Check each system account
+    for account in "${SYSTEM_ACCOUNTS[@]}"
+    do
+        echo -e "\n=== System Account ($account) ==="
+        echo -e "\nPermissions:"
+        cleos --url $API_URL get account $account
+    done
+}
+
 # Execute the functions
 get_blockchain_info
 get_account_keys
+get_system_accounts_info

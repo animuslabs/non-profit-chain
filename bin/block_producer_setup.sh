@@ -30,36 +30,3 @@ do
   # vote
   cleos --url $ENDPOINT_ONE system voteproducer prods ${user_name} "${PRODUCERS[@]}"
 done
-
-# delegate active permissions
-cat > $HOME/required_auth.json << EOF
-{
-  "threshold": 3,
-  "keys": [],
-  "accounts": [
-    {
-      "permission": {
-        "actor": "${PRODUCERS[0]}",
-        "permission": "active"
-      },
-      "weight": 1
-    },
-    {
-      "permission": {
-        "actor": "${PRODUCERS[1]}",
-        "permission": "active"
-      },
-      "weight": 1
-    },
-    {
-      "permission": {
-        "actor": "${PRODUCERS[2]}",
-        "permission": "active"
-      },
-      "weight": 1
-    }
-  ],
-  "waits": []
-}
-EOF
-cleos  --url $ENDPOINT_ONE set account permission eosio active $HOME/required_auth.json
